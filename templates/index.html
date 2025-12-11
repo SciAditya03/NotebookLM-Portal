@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website to NotebookLM Source</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        input[type="text"],
+        input[type="url"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .spinner {
+            display: none;
+            margin-left: 10px;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        button.processing {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Website to NotebookLM</h1>
+        <p class="subtitle">Convert web content into NotebookLM-ready sources using AI-powered relevance ranking</p>
+        
+        <form action="/process" method="POST" id="mainForm">
+            <div class="form-group">
+                <label for="url">Website URL</label>
+                <input 
+                    type="url" 
+                    id="url" 
+                    name="url" 
+                    placeholder="https://example.com/article" 
+                    required
+                >
+                <div class="hint">Enter the full URL of the website you want to convert</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="query">Research Query</label>
+                <textarea 
+                    id="query" 
+                    name="query" 
+                    placeholder="What specific information are you researching? E.g., 'machine learning applications in healthcare'"
+                    required
+                ></textarea>
+                <div class="hint">Describe what you're looking for - this helps rank content by relevance</div>
+            </div>
+            
+            <button type="submit" id="submitBtn">
+                <span id="btnText">Generate NotebookLM Source</span>
+                <span class="spinner" id="spinner"></span>
+            </button>
+        </form>
+        
+        <div class="footer">
+            Powered by Flask, Sentence Transformers & Google Drive API
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('mainForm').addEventListener('submit', function() {
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const spinner = document.getElementById('spinner');
+            
+            btn.classList.add('processing');
+            btnText.textContent = 'Processing...';
+            spinner.style.display = 'inline-block';
+        });
+    </script>
+</body>
+</html>

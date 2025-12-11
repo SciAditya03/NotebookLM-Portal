@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 5px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <h1>Processing Result</h1>
+    
+    {% if error %}
+        <div class="error">
+            <h3>Error</h3>
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
+    
+    {% if success %}
+        <div class="success">
+            <h3>✅ Success!</h3>
+            <p>PDF has been generated successfully.</p>
+            <p><strong>Filename:</strong> {{ filename }}</p>
+            
+            <div style="margin-top: 20px;">
+                <a href="{{ url_for('download_pdf', filename=filename) }}" class="btn">
+                    📥 Download PDF
+                </a>
+                
+                <a href="{{ url_for('view_pdf', filename=filename) }}" class="btn" target="_blank">
+                    👁️ View PDF
+                </a>
+                
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                    🔄 Process Another
+                </a>
+            </div>
+        </div>
+    {% endif %}
+    
+    <div style="margin-top: 30px;">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">
+            ← Back to Home
+        </a>
+    </div>
+</body>
+</html>

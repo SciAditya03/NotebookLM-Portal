@@ -1,0 +1,13 @@
+Flask==3.0.0
+requests==2.31.0
+beautifulsoup4==4.12.2
+sentence-transformers==2.2.2
+fpdf2==2.7.6
+google-api-python-client==2.108.0
+google-auth==2.25.2
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+gunicorn==21.2.0
+lxml==4.9.3
+torch==2.5.1
+transformers==4.47.1
