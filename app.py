@@ -7,6 +7,7 @@ so the web worker comes up fast and Render/Gunicorn health checks succeed.
 import os
 import uuid
 import threading
+import traceback
 from flask import Flask, render_template, request, jsonify, send_file
 
 app = Flask(__name__)
@@ -48,15 +49,24 @@ def load_model_and_workflow():
         # We import here so imports happen after heavy libs are available and won't block main thread.
         try:
             import workflow as wf  # local module
-            # assign the function reference we need
             process_workflow = getattr(wf, "process_workflow", None)
             if process_workflow is None:
                 app.logger.warning("workflow module imported but 'process_workflow' not found.")
+                # write a clear diagnostic file
+                with open("loader_error.log", "a") as fh:
+                    fh.write("workflow imported but 'process_workflow' attribute missing.\n")
             else:
                 workflow_ready = True
                 app.logger.info("workflow imported and ready.")
         except Exception as e:
-            app.logger.exception("Failed to import workflow module inside background loader: %s", e)
+            # log to Render logs
+            app.logger.exception("Failed to import workflow module inside background loader:")
+            # write full traceback to a local file for easier inspection
+            tb = traceback.format_exc()
+            with open("loader_error.log", "a") as fh:
+                fh.write("=== workflow import exception ===\n")
+                fh.write(tb + "\n")
+            # keep workflow_ready False
 
     except Exception as e:
         app.logger.exception("Exception while loading model or workflow: %s", e)
